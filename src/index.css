@@ -17,7 +17,7 @@ body {
   border-bottom: 1px solid;
   font-size: 58px;
   font-family: 'Maven Pro', sans-serif;
-  color: #000;
+  color: rgb(245, 92, 92);
   margin-bottom: 100px;
   display: flex;
   justify-content: center;
@@ -52,4 +52,14 @@ body {
 .counter {
   width: 75px;
   display: block;
+}
+
+.title {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 22px;
+  color: #000;
+  text-transform: uppercase;
+}
+.relax_timer {
+  color: rgb(116, 235, 92);
 }

@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import DocumentTitle from "react-document-title";
+import soundOnClick from "./decay.mp3";
+import soundOnEnd from "./smtb.mp3";
 
-function RelaxTime({ setIsRelaxingTime }) {
+function RelaxTime({ isWorkStarted, setIsWorkStarted, setIsRelaxingTime }) {
   const [minutes, setMinutes] = useState(10);
   const [ seconds, setSeconds ] = useState(0);
-  const [isStarted, setIsStarted] = useState(true);
   let timerId;
 
   
   useEffect(() => {
-    isStarted ? timerId = setInterval(() => tick(), 1000) : timerId;
+    isWorkStarted === false ? timerId = setInterval(() => tick(), 1000) : timerId;
     return function cleanUp() {
       clearInterval(timerId);
     }
@@ -17,7 +19,7 @@ function RelaxTime({ setIsRelaxingTime }) {
   const tick = () => {
     if(minutes === 0 && seconds === 0) {
       new Audio(soundOnEnd).play();
-      setIsStarted(false);
+      setIsWorkStarted(true);
       setIsRelaxingTime(false);
       return;
     } else if(seconds === 0) {
@@ -27,22 +29,17 @@ function RelaxTime({ setIsRelaxingTime }) {
       setSeconds(seconds-1);
     }
   };
-
-  const handleStart = () => {
-    if(minutes === 0) {
-      setMinutes(20);
-    }
-    new Audio(soundOnClick).play();
-    setIsStarted(true);
-  };
     
   return (
   <DocumentTitle title={(minutes < 10 ? `0${minutes}` : minutes) + " : " + (seconds < 10 ? `0${seconds}` : seconds)}>
-    <div className="countdown_timer">
-      <span className="counter">{minutes < 10 ? `0${minutes}` : minutes}</span>
-      {" : "}
-      <span className="counter">{seconds < 10 ? `0${seconds}` : seconds}</span>
-    </div>
+    <React.Fragment>
+      <div className="title">Отдохните</div>
+      <div className="countdown_timer relax_timer">
+        <span className="counter">{minutes < 10 ? `0${minutes}` : minutes}</span>
+        {" : "}
+        <span className="counter">{seconds < 10 ? `0${seconds}` : seconds}</span>
+      </div>
+    </React.Fragment>
   </DocumentTitle>
   );
 }
